@@ -38,6 +38,10 @@ namespace XlxsToCsv
                 if (files[0].EndsWith(".xlsx", StringComparison.CurrentCultureIgnoreCase))
                 {
                     outputTextBox.Text = Converter.ConvertToCsv(files[0]);
+                    if ((bool)clipboardCheckBox.IsChecked)
+                    {
+                        Clipboard.SetText(outputTextBox.Text);
+                    }
                     return;
                 }
 
@@ -46,6 +50,17 @@ namespace XlxsToCsv
             outputTextBox.Text = "Okänd fil typ. Vänligen ge en .xlsx fil";
 
         }
+
+
+        private void TextBox_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Handled = true;
+            }
+        }
+
+
 
     }
 }

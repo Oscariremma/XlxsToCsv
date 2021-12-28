@@ -9,7 +9,8 @@
         Drop="HandleFileDrop"
         AllowDrop="True">
     <Grid Drop="HandleFileDrop" AllowDrop="True">
-        <TextBox Name="outputTextBox" HorizontalAlignment="Center" Margin="0,158,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="365" Height="224" Drop="HandleFileDrop" AllowDrop="True"/>
+        <TextBox Name="outputTextBox" HorizontalAlignment="Center" Margin="0,158,0,0" TextWrapping="Wrap" Text="Dra en xlsx fil till fönstret" VerticalAlignment="Top" Width="365" Height="224" PreviewDragOver="TextBox_PreviewDragOver" Drop="HandleFileDrop" AllowDrop="True"/>
+        <CheckBox Name="clipboardCheckBox" Content="Lägg resultat i clipboard" HorizontalAlignment="Center" Margin="0,122,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
