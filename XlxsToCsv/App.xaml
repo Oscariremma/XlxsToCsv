@@ -1,7 +1,7 @@
-﻿<Application x:Class="XlxsToCsv.App"
+﻿<Application x:Class="XlsxToCsv.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:XlxsToCsv"
+             xmlns:local="clr-namespace:XlsxToCsv"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

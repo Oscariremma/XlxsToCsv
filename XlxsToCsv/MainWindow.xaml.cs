@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
-namespace XlxsToCsv
+namespace XlsxToCsv
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -35,19 +37,40 @@ namespace XlxsToCsv
                 // Assuming you have one file that you care about, pass it off to whatever
                 // handling code you have defined.
 
-                if (files[0].EndsWith(".xlsx", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    outputTextBox.Text = Converter.ConvertToCsv(files[0]);
-                    if ((bool)clipboardCheckBox.IsChecked)
-                    {
-                        Clipboard.SetText(outputTextBox.Text);
-                    }
-                    return;
-                }
-
+                if (ConvertFile(files[0])) return;
             }
 
-            outputTextBox.Text = "Okänd fil typ. Vänligen ge en .xlsx fil";
+
+
+        }
+
+        /// <summary>
+        /// Converts a XLSX file to CSV
+        /// </summary>
+        /// <param name="file">Path to file</param>
+        /// <returns>Returns true if success otherwise false</returns>
+        private bool ConvertFile(string file)
+        {
+            if (!file.EndsWith(".xlsx", StringComparison.CurrentCultureIgnoreCase))
+            {
+                outputTextBox.Text = "Okänd fil typ. Vänligen ge en .xlsx fil";
+                return false;
+            }
+                
+            
+            if (!File.Exists(file))
+            {
+                outputTextBox.Text = $"Kan inte hitta filen: {file}";
+                return false;
+            };
+            
+            outputTextBox.Text = Converter.ConvertToCsv(file);
+            if (clipboardCheckBox.IsChecked == true)
+            {
+                Clipboard.SetText(outputTextBox.Text);
+            }
+
+            return true;
 
         }
 
@@ -61,6 +84,22 @@ namespace XlxsToCsv
         }
 
 
+        private void BrowseFile_Btn(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel|*.xlsx";
+            ofd.ShowDialog();
+            inFile_tbx.Text = ofd.FileName;
 
+        }
+
+        private void Run_Btn(object sender, RoutedEventArgs e)
+        {
+            string file = inFile_tbx.Text;
+
+            ConvertFile(file);
+
+
+        }
     }
 }
