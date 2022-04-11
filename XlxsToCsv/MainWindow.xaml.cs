@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,11 @@ namespace XlsxToCsv
         public MainWindow()
         {
             InitializeComponent();
+
+            inFile_tbx.Text = Settings.StaticSettings.lastPath;
+            clipboardCheckBox.IsChecked = Settings.StaticSettings.copyResult;
+
+            Closing += OnWindowClosing;
         }
 
         private void HandleFileDrop(object sender, DragEventArgs e)
@@ -99,7 +105,13 @@ namespace XlsxToCsv
 
             ConvertFile(file);
 
+        }
 
+        private void OnWindowClosing(object? sender, CancelEventArgs e)
+        {
+            Settings.StaticSettings.lastPath = inFile_tbx.Text;
+            Settings.StaticSettings.copyResult = clipboardCheckBox.IsChecked ?? false;
+            Settings.SaveSettings();
         }
     }
 }
